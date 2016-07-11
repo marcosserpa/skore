@@ -32,7 +32,7 @@ class InfoApi < Sinatra::Base
 
     def get_content(parsed)
       title = parsed.document.title
-      description = parsed.document.search("meta[name='description']").first['content']
+      description = parsed.document.search("meta[name='description']").empty? ? '' : parsed.document.search("meta[name='description']").first['content']
 
       # Regex to match YouTube URLs
       regex = /^(?:https?:\/\/)?(?:www\.)?youtu(?:\.be|be\.com)\/(?:watch\?v=)?([\w-]{10,})/
