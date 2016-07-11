@@ -6,7 +6,7 @@ RSpec.describe InfoApi do
   end
 
   before(:each) do
-    InfoApi.class_variable_set(@link, 'https://www.youtube.com/watch?v=i_NjJereUtc')
+    InfoApi.instance_variable_set(:@link, 'https://www.youtube.com/watch?v=i_NjJereUtc')
   end
 
   let(:link) { 'https://www.youtube.com/watch?v=i_NjJereUtc' }
@@ -17,8 +17,8 @@ RSpec.describe InfoApi do
         @link = 'https://www.youtube.com/watch?v=i_NjJereUtc'
         parsed = InfoApi.parse_html
 
-        expect(parsed.class).to be(Nokogiri)
-        expect(parsed.document.title).to be("Samba - sequência 1 - YouTube")
+        expect(parsed.class).to be(Nokogiri::HTML::Document)
+        expect(parsed.document.title).to eql("Samba - sequência 1 - YouTube")
       end
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe InfoApi do
       it "must return it's default infos with the video's duration" do
         parsed = InfoApi.parse_html
 
-        expect(InfoApi.get_content(parsed)).to be({ 'title' => "Samba - sequência 1 - YouTube", 'description' => "", 'duration' => "0 Hours, 1 Minutes, 10 Seconds" })
+        expect(InfoApi.get_content(parsed)).to eql({ :title => "Samba - sequência 1 - YouTube", :description => "", :duration => "0 Hours, 0 Minutes, 34 Seconds" })
       end
     end
   end
