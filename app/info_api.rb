@@ -3,19 +3,18 @@ require 'net/http'
 require 'nokogiri'
 require 'iso8601'
 require 'json'
-# require 'pry'
+
 
 class InfoApi < Sinatra::Base
 
   get '/' do
-    binding.pry
     erb :index
   end
 
   get '/info' do
     return [404, {}, "<h1>Not Found</h1>"] if !params['link']
 
-    @link = params[:link]
+    @@link = params['link']
     parsed = InfoApi.parse_html
     content = InfoApi.get_content(parsed)
 
@@ -26,7 +25,7 @@ class InfoApi < Sinatra::Base
   class << self
 
     def parse_html
-      uri = URI(@link)
+      uri = URI(@@link)
       page = Net::HTTP.get(uri)
       parsed = Nokogiri::HTML(page)
     end
@@ -44,7 +43,7 @@ class InfoApi < Sinatra::Base
         # image: ''
       }
 
-      if @link.match regex
+      if @@link.match regex
         duration = parsed.document.search("meta[itemprop='duration']").first['content']
         parsed_time = ISO8601::Duration.new(duration)
 

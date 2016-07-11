@@ -4,10 +4,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script type="text/javascript">
       function validate_url() {
-        url = $('#url_field').val();
+        url = $('#link').val();
 
-        if !url {
-          alert("Type some URL in the field to get it's information.")
+        if (!(url)) {
+          alert("Type some URL in the field to get it's information.");
 
           return false;
         }
@@ -27,7 +27,10 @@
   </head>
 
   <body>
-    <input id='url_field' type='text' placeholder="Type a valid URL"/>
-    <submit type='button' value='Get Info' onclick='validate_url();'/>
+    <form class="" action="/info" method="get" onsubmit="return validate_url();">
+      <input id='link' name='link' type='text' placeholder="Type a valid URL"/>
+
+      <button name='button'>Get Info</button>
+    </form>
   </body>
 </html>
