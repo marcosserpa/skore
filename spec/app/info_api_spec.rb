@@ -12,7 +12,7 @@ RSpec.describe InfoApi do
   let(:link) { 'https://www.youtube.com/watch?v=i_NjJereUtc' }
 
   describe "#parse_html" do
-    content "when received a link" do
+    context "when received a link" do
       it "must parse HTML content to a Nokogiri object" do
         @link = 'https://www.youtube.com/watch?v=i_NjJereUtc'
         parsed = InfoApi.parse_html
@@ -24,7 +24,7 @@ RSpec.describe InfoApi do
   end
 
   describe "#get_content" do
-    content "when passed a YouTube URL" do
+    context "when passed a YouTube URL" do
       it "must return it's default infos with the video's duration" do
         parsed = InfoApi.parse_html
 

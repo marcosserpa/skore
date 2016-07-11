@@ -4,6 +4,8 @@ ruby '2.3.0'
 
 gem 'rack'
 gem 'sinatra'
+gem 'nokogiri'
+gem 'iso8601'
 
 group :development, :test do
 	gem 'pry'
