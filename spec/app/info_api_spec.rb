@@ -14,7 +14,6 @@ RSpec.describe InfoApi do
   describe "#parse_html" do
     context "when received a link" do
       it "must parse HTML content to a Nokogiri object" do
-        @link = 'https://www.youtube.com/watch?v=i_NjJereUtc'
         parsed = InfoApi.parse_html
 
         expect(parsed.class).to be(Nokogiri::HTML::Document)
@@ -33,25 +32,32 @@ RSpec.describe InfoApi do
     end
   end
 
-  # describe "GET infos" do
-  #   context "when a YouTube link is passed" do
-  #     it "returns none" do
-  #       @link = 'https://www.youtube.com/watch?v=i_NjJereUtc'
-  #       get "/#{ link }", {}, { 'Accept' => 'application/json' }
-  #
-  #       expect(last_response.body).to eql('[]')
-  #       expect(last_response.status).to eql(200)
-  #       expect(JSON.parse(last_response.body)).to eql({ 'title' => "Samba - sequência 1 - YouTube", 'description' => "", 'duration' => "0 Hours, 1 Minutes, 10 Seconds" })
-  #     end
-  #   end
-  #
-  #   context "when a non YouTube link is passed" do
-  #     it "returns none" do
-  #       get '/'
-  #
-  #       expect(last_response.body).to eql('[]')
-  #       expect(last_response.status).to eql(200)
-  #     end
-  #   end
-  # end
+  describe "GET infos" do
+    context "when a YouTube link is passed" do
+      it "returns none" do
+        get "/info", link: nil
+
+        expect(last_response.body).to eql("<h1>Not Found</h1>")
+        expect(last_response.status).to eql(404)
+      end
+    end
+
+    context "when a YouTube link is passed" do
+      it "returns none" do
+        get "/info", link: link
+
+        expect(last_response.status).to eql(200)
+        expect(last_response.body).to eql("{\"title\":\"Samba - sequência 1 - YouTube\",\"description\":\"\",\"duration\":\"0 Hours, 0 Minutes, 34 Seconds\"}")
+      end
+    end
+
+    # context "when a non YouTube link is passed" do
+    #   it "returns none" do
+    #     get '/'
+    #
+    #     expect(last_response.body).to eql('[]')
+    #     expect(last_response.status).to eql(200)
+    #   end
+    # end
+  end
 end

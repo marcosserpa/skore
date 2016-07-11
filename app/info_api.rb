@@ -2,19 +2,24 @@ require 'sinatra'
 require 'net/http'
 require 'nokogiri'
 require 'iso8601'
+require 'json'
+require 'pry'
 
 class InfoApi < Sinatra::Base
 
-  get '/' do
-    erb :index
-  end
+  # get '/' do
+  #   erb :index
+  # end
 
-  get '/:link' do
+  get '/info' do
+    return [404, {}, "<h1>Not Found</h1>"] if !params['link']
+
     @link = params[:link]
-    parsed = parse_html
-    content = get_content(parsed)
+    parsed = InfoApi.parse_html
+    content = InfoApi.get_content(parsed)
 
-    "HAHAHAHA"
+    content_type :json
+    [200, content.to_json]
   end
 
   class << self
