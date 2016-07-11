@@ -3,13 +3,14 @@ require 'net/http'
 require 'nokogiri'
 require 'iso8601'
 require 'json'
-require 'pry'
+# require 'pry'
 
 class InfoApi < Sinatra::Base
 
-  # get '/' do
-  #   erb :index
-  # end
+  get '/' do
+    binding.pry
+    erb :index
+  end
 
   get '/info' do
     return [404, {}, "<h1>Not Found</h1>"] if !params['link']
