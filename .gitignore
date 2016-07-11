@@ -1,2 +1,2 @@
 # Ignore gems folder - rbenv style
-/gems
+.gems
